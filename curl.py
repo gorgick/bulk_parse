@@ -50,3 +50,7 @@ response = requests.get(
     cookies=cookies,
     headers=headers,
 )
+
+
+with open('data.json', 'w', encoding='utf-8') as f:
+    json.dump(response.json(), f, ensure_ascii=False, indent=4)
