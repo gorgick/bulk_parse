@@ -34,4 +34,4 @@ def create_model_instances(data_list):
 
 def index(request):
     Product.objects.bulk_create(create_model_instances(load_json_data()))
-    return render(request, 'target/index.html')
+    return render(request, 'mainapp/create.html')
