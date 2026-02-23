@@ -4,6 +4,7 @@ import string
 
 from django.shortcuts import render
 
+from .documents import ProductDocument
 from .models import Product
 
 
@@ -35,3 +36,12 @@ def create_model_instances(data_list):
 def index(request):
     Product.objects.bulk_create(create_model_instances(load_json_data()))
     return render(request, 'mainapp/create.html')
+
+
+def elastic(request):
+    q = request.GET.get('q')
+    context = {}
+    if q:
+        s = ProductDocument.search().query('match', name=q)
+        context['products'] = s
+    return render(request, 'target/elastic.html', context)
