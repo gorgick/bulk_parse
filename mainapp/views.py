@@ -3,6 +3,7 @@ import random
 import string
 
 from django.shortcuts import render
+from elasticsearch.dsl.query import MultiMatch
 
 from .documents import ProductDocument
 from .models import Product
@@ -42,6 +43,7 @@ def elastic(request):
     q = request.GET.get('q')
     context = {}
     if q:
-        s = ProductDocument.search().query('match', name=q)
+        query = MultiMatch(query=q, fields=['name', 'text'], fuzziness='AUTO')
+        s = ProductDocument.search().query(query)[0:3]
         context['products'] = s
     return render(request, 'target/elastic.html', context)
