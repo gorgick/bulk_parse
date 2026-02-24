@@ -46,4 +46,4 @@ def elastic(request):
         query = MultiMatch(query=q, fields=['name', 'text'], fuzziness='AUTO')
         s = ProductDocument.search().query(query)[0:3]
         context['products'] = s
-    return render(request, 'target/elastic.html', context)
+    return render(request, 'mainapp/elastic.html', context)
